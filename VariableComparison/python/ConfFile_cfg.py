@@ -4,7 +4,7 @@ process = cms.Process("VariableComparison")
 
 process.load("FWCore.MessageService.MessageLogger_cfi")
 
-process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(10000) )
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
 
 process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
 from Configuration.AlCa.GlobalTag import GlobalTag
@@ -13,6 +13,9 @@ process.GlobalTag = GlobalTag(process.GlobalTag, '101X_dataRun2_Prompt_v9')
 process.load("Configuration.StandardSequences.MagneticField_cff")
 process.load('Configuration.StandardSequences.MagneticField_AutoFromDBCurrent_cff')
 process.load("DQMServices.Core.DQM_cfg")
+
+process.load("CommonTools.ParticleFlow.goodOfflinePrimaryVertices_cfi")
+process.FastFilters = cms.Path(process.goodOfflinePrimaryVertices)
 
 
 process.source = cms.Source("PoolSource",
@@ -23,11 +26,11 @@ process.source = cms.Source("PoolSource",
    )
 )
 
-
+process.goodOfflinePrimaryVertices.src = cms.InputTag("offlineSlimmedPrimaryVertices")
 
 process.VariableComparison = cms.EDAnalyzer('VariableComparison', 
        MuonCollection = cms.InputTag("slimmedMuons"),
-       VertexLabel   = cms.InputTag("offlineSlimmedPrimaryVertices"),
+       VertexLabel = cms.InputTag("goodOfflinePrimaryVertices"),
        BeamSpotLabel = cms.InputTag("offlineBeamSpot"), 
        triggerObjects  = cms.InputTag("slimmedPatTrigger"),
        triggerResults = cms.InputTag("TriggerResults","","HLT"),
