@@ -300,8 +300,6 @@ class VariableComparison : public edm::EDAnalyzer {
   edm::EDGetTokenT<reco::BeamSpot>          theBeamSpotLabel_;
   edm::EDGetTokenT<edm::View<pat::TriggerObjectStandAlone>>   trigger_;
   edm::EDGetTokenT<edm::TriggerResults> trgresultsToken_;
-  std::string trigFilterCut_;
-  std::string trigPathCut_;
 
 
 };
